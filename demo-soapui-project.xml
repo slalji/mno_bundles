@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="de23e3bc-e883-4369-a4a8-f8d8c81acc70" activeEnvironment="Default" name="demo" resourceRoot="${projectDir}" soapui-version="5.4.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
