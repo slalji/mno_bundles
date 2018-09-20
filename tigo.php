@@ -270,7 +270,9 @@ class Tigo {
 		$filename="tigo.csv";
 		$file = fopen($filename, "r");
 		$this->db_connect();
-		 
+		/**
+		 *  delete table upload new data
+		 * */ 
 		mysqli_query($this->dbcon,'TRUNCATE TABLE catalog;');
 				while (($getData = fgetcsv($file, 10000, ",")) !== FALSE) {
 	
@@ -292,6 +294,27 @@ class Tigo {
 				 echo "CSV File has been successfully Imported<br>";
 				fclose($file);	
 	}
+	function build_bundle_category(){
+		$this->db_connect();
+		/**
+		 *  delete table upload new data
+		 * */ 
+		mysqli_query($this->dbcon,'TRUNCATE TABLE tigo_category;');
+
+		$sql ="SELECT Package_name, OCS_Name, Validity FROM `catalog` where 1 group BY Validity";
+		$result = mysqli_query($this->dbcon, $sql);
+		// Fetch all
+		$rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
+		foreach($rows as $row){
+			$utilitycode = $row['Package_name'];
+			$name = $row['OCS_Name'];
+			$cat_code_1 = $row['Validity'];
+			$res = mysqli_query($this->dbcon,"INSERT INTO tigo_category(utilitycode, name, name_en, name_sw, categorycode, sequence) VALUES ('$utilitycode', '$name', '$name', '$name', '$cat_code_1', '1')");
+			echo $utilitycode."<p>";											
+		}
+		echo "built cat";
+
+	}
 }
 
 $tigo = new Tigo();
@@ -312,6 +335,7 @@ $tigo->db_connect();
 */
 switch($service){
 	case 'import':$tigo->import();break;
+	case 'build':$tigo->build_bundle_category();break;
 	default: echo "Error, no such service";
 }
 
